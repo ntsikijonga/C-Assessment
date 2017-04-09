@@ -1,0 +1,108 @@
+﻿@model Tangent.Models.HomeViewModel
+
+@{
+    ViewBag.Title = "Home Page";
+}
+<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#addProject" style="margin-bottom: 10px">create new project</button>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Billable</th>
+            <th>Active</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        @foreach (var project in Model.ProjectList)
+        {
+            <tr>
+                <td>@project.pk</td>
+                <td>@project.title</td>
+                <td>@project.description</td>
+                <td>@project.start_date</td>
+                <td>@project.end_date</td>
+                <td>@project.is_billable</td>
+                <td>@project.is_active</td>
+               
+                <th><a href="@Url.Action("Index", "Project", project)"><span class="glyphicon glyphicon-pencil"></span></a></th>
+                <th><a href="@Url.Action("Delete", "Project", project)"><span class="glyphicon glyphicon-remove"></span></a></th>
+            </tr>
+        }        
+    </tbody>
+</table>
+@Html.Label((Model.ProjectList).Count().ToString() + " Projects")
+<!-- Add project window -->
+<div id="addProject" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add new Project</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" action="@Url.Action("Save", "Project")" method="post">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            @Html.TextBoxFor(m => m.Project.title, new { @class = "form-control", placeholder = "Title" }) 
+                            @Html.ValidationSummary(true)
+                            @Html.ValidationMessageFor(m => m.Project.title)                           
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            @Html.TextBoxFor(m => m.Project.description, new { @class = "form-control", placeholder = "Description" })
+                            @Html.ValidationSummary(true)
+                            @Html.ValidationMessageFor(m => m.Project.description)
+                           
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            @Html.TextBoxFor(m => m.Project.start_date, new { type = "date" })
+                          
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            @Html.TextBoxFor(m => m.Project.end_date, new { type = "date" })
+                          
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                           Is Billable: @Html.CheckBoxFor(m => m.Project.is_billable)
+                       </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            Is Active: @Html.CheckBoxFor(m => m.Project.is_active)
+                   
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-default">Save</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+              
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+ $(function () {
+    $(".datepicker").datepicker();
+ });
+</script>
+

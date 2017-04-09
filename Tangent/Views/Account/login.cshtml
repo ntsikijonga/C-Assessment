@@ -1,0 +1,7 @@
+﻿@model Tangent.Models.LoginViewModel
+    
+ <form class="form-horizontal" action="@Url.Action("AuthenticateUser", "Account" )" method="post">
+     UserName: @Html.TextBoxFor(m=> m.password)
+     Password:@Html.TextBoxFor(m=> m.password)
+     <input type="submit" class="btn btn-primary" value="Assign"  />
+     </form>
